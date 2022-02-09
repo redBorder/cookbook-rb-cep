@@ -38,7 +38,7 @@ esac
 
 %files
 %defattr(0755,root,root)
-/var/chef/cookbooks/rbcep
+/var/chef/cookbooks/rb-cep
 %defattr(0644,root,root)
 /var/chef/cookbooks/rb-cep/README.md
 
