@@ -9,8 +9,9 @@ action :add do
     user = new_resource.user
     vault_nodes = new_resource.vault_nodes
     ips_nodes = new_resource.ips_nodes
-    social_nodes = new_resource.vault_nodes
-    flow_nodes = new_resource.ips_nodes
+    social_nodes = new_resource.social_nodes
+    flow_nodes = new_resource.flow_nodes
+    cep_port = new_resource.cep_port
 
     ipsync, netsync, ifsync, masksync = get_sync
     dimensions = {}
@@ -40,7 +41,8 @@ action :add do
       group "root"
       mode 0644
       retries 2
-      variables( :ipsync => ipsync, :flow_nodes => flow_nodes, :social_nodes => social_nodes, :vault_nodes => vault_nodes, :ips_nodes => ips_nodes, :dimensions => dimensions )
+      variables(:cep_port => cep_port, :ipsync => ipsync, :flow_nodes => flow_nodes, :social_nodes => social_nodes, :vault_nodes => vault_nodes, :ips_nodes => ips_nodes, :dimensions => dimensions )
+      cookbook "rbcep"
       notifies :restart, "service[redborder-cep]", :delayed
     end
 
@@ -50,6 +52,7 @@ action :add do
       group "root"
       mode 0644
       retries 2
+      cookbook "rbcep"
       notifies :restart, "service[redborder-cep]", :delayed
     end
 

@@ -4,14 +4,14 @@ sources:
   - name: kafka
     class: net.redborder.cep.sources.kafka.KafkaSource
     properties:
-      zk_connect: "zookeeper.service"
+      zk_connect: "zookeeper.service:2181"
 sinks:
   - name: syslog
     class: net.redborder.cep.sinks.syslog.SyslogSink
   - name: kafka
     class: net.redborder.cep.sinks.kafka.KafkaSink
     properties:
-      kafka_brokers: "kafka.service:9092""
+      kafka_brokers: "kafka.service:9092"
 parsers:
   json: net.redborder.cep.sources.parsers.JsonParser
 streams:
