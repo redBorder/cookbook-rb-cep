@@ -6,21 +6,17 @@ include RbCep::Helper
 
 action :add do
   begin
-    user = new_resource.user
     vault_nodes = new_resource.vault_nodes
     ips_nodes = new_resource.ips_nodes
     social_nodes = new_resource.social_nodes
     flow_nodes = new_resource.flow_nodes
     cep_port = new_resource.cep_port
+    log_dir = new_resource.log_dir
 
     ipsync, netsync, ifsync, masksync = get_sync
     dimensions = {}
     Dir.glob('/var/rb-extensions/*/dimensions.yml') do |item|
       dimensions = dimensions.merge(YAML.load_file(item)) rescue dimensions
-    end
-
-    user user do
-      action :create
     end
 
     yum_package "redborder-cep" do
@@ -33,6 +29,12 @@ action :add do
       group "redborder-cep"
       mode 0770
       action :create
+    end
+
+    directory log_dir do
+      owner "root"
+      group "root"
+      mode 0755
     end
 
     template "/etc/redborder-cep/config.yml" do

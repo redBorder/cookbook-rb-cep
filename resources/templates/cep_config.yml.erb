@@ -1,4 +1,4 @@
-rest_uri: http://<%= @ipsync %>:<%= node["redborder"]["redborder-cep"]["port"] %>/
+rest_uri: http://<%= @ipsync %>:<%= @cep_port %>/
 state_file: /etc/redborder-cep/state.json
 sources:
   - name: kafka
