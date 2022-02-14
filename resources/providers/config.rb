@@ -25,8 +25,8 @@ action :add do
     end
 
     directory "/etc/redborder-cep" do
-      owner "redborder-cep"
-      group "redborder-cep"
+      owner "root"
+      group "root"
       mode 0770
       action :create
     end
