@@ -14,7 +14,7 @@
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %c{1} [%p] %m%n" />
         </Console>
 
-	<Syslog name="SyslogSink" format="RFC5424" host="localhost" port="<%= ((node["redborder"]["rsyslog"]["protocol"] == "tcp") ? node["redborder"]["rsyslog"]["tcp_port"] : node["redborder"]["rsyslog"]["udp_port"]) %>" protocol="<%=  (( !node["redborder"]["rsyslog"]["protocol"].nil? and node["redborder"]["rsyslog"]["protocol"].upcase=="TCP") ? "TCP" : "UDP") %>" appName="redborder-cep" includeMDC="true" facility="USER" enterpriseNumber="18060" newLine="true"
+	<Syslog name="SyslogSink" format="RFC5424" host="localhost" port="<%= ((node["redborder"]["rsyslog"]["protocol"] == "tcp") ? node["redborder"]["rsyslog"]["tcp_port"] : node["redborder"]["rsyslog"]["udp_port"]) %>" protocol="<%=  (( !node["redborder"]["rsyslog"]["protocol"].nil? and node["redborder"]["rsyslog"]["protocol"].upcase=="TCP") ? "TCP" : "UDP") %>" appName="cep" includeMDC="true" facility="USER" enterpriseNumber="18060" newLine="true"
 		   messageId="Audit" mdcId="mdc" id="App" connectTimeoutMillis="1000" reconnectionDelayMillis="5000">
 	   <LoggerFields>
 	      <KeyValuePair key="thread" value="%t"/>
