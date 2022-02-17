@@ -36,8 +36,8 @@ module RbCep
         ifsync = node["redborder"]["manager"][node["redborder"]["manager"]["internal_bond"]]["iface"]
       else
         if ipsync.nil?
-          ipsync = "127.0.0.1"
-          netsync = "127.0.0.0/24"
+          ipsync = "redborder-cep.service"
+          netsync = "redborder-cep.service/24"
           ifsync = "lo"
           masksync = "32"
         end
