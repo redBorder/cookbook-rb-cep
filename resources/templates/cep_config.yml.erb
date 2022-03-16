@@ -1,0 +1,202 @@
+rest_uri: http://<%= @ipsync %>:<%= @cep_port %>/
+state_file: /etc/redborder-cep/state.json
+sources:
+  - name: kafka
+    class: net.redborder.cep.sources.kafka.KafkaSource
+    properties:
+      zk_connect: "zookeeper.service:2181"
+sinks:
+  - name: syslog
+    class: net.redborder.cep.sinks.syslog.SyslogSink
+  - name: kafka
+    class: net.redborder.cep.sinks.kafka.KafkaSink
+    properties:
+      kafka_brokers: "kafka.service:9092"
+parsers:
+  json: net.redborder.cep.sources.parsers.JsonParser
+streams:
+<% if (node["redborder"]["license"]["fmodules"].include?"all" or node["redborder"]["license"]["fmodules"].include?"monitor") %>
+  rb_monitor:
+    source: kafka
+    parser: json
+    attributes:
+      value: string
+      monitor: string
+      sensor_name: string
+      uuid: string
+      type: string
+      timestamp: long
+<% end %>
+<% if (node["redborder"]["license"]["fmodules"].include?"all" or node["redborder"]["license"]["fmodules"].include?"flow") %>
+  rb_flow_post:
+    source: kafka
+    parser: json
+    attributes:
+      bytes: int
+      direction: string
+      wan_ip: string
+      pkts: int
+      wan_ip_name: string
+      type: string
+      timestamp: long
+      lan_ip_name: string
+      client_mac: string
+      lan_l4_port: int
+      lan_ip_as_name: string
+      wan_l4_port: int
+      flow_sequence: string
+      flow_count: int
+      service_provider: string
+      sensor_ip: string
+      application_id_name: string
+      lan_ip: string
+      l4_proto: int
+      lan_ip_country_code: string
+      sensor_name: string
+      sensor_uuid: string
+      public_ip: string
+      ip_as_name: string
+      ip_country_code: string
+      tcp_flags: string
+<% end %>
+<% if (node["redborder"]["license"]["fmodules"].include?"all" or node["redborder"]["license"]["fmodules"].include?"ips") and @ips_nodes.size>0 %>
+  rb_event_post:
+    source: kafka
+    parser: json
+    attributes:
+      dst_country_code: string
+      sig_id: int
+      dst: string
+      src_port: string
+      group_uuid: string
+      priority: string
+      tcpflags: string
+      src_name: string
+      action: string
+      dst_as: int
+      ethsrc: string
+      domain_name: string
+      dst_port_name: string
+      sensor_ip: string
+      msg: string
+      l4_proto: int
+      dst_country: string
+      ethdst: string
+      dst_port:  int
+      timestamp: long
+      id: int
+      ethtype: int
+      sensor_type: string
+      src: string
+      src_port_name: string
+      group_name: string
+      darklist_category: string
+      dst_as_name: string
+      dst_name: string
+      classification: string
+      sensor_uuid: string
+      sig_generator: int
+      sensor_name: string
+      classification: string
+<% end %>
+<% if (node["redborder"]["license"]["fmodules"].include?"all" or node["redborder"]["license"]["fmodules"].include?"location") and @flow_nodes.size>0 %>
+  rb_loc_post:
+    source: kafka
+    parser: json
+    attributes:
+      client_mac: string
+      sensor_uuid: string
+      deployment_uuid: string
+      namespace_uuid: string
+      type: string
+      floor_uuid: string
+      zone_uuid: string
+      campus_uuid: string
+      building_uuid: string
+      service_provider_uuid: string
+      market_uuid: string
+<% end %>
+<% if (node["redborder"]["license"]["fmodules"].include?"all" or node["redborder"]["license"]["fmodules"].include?"vault") and @vault_nodes.size>0 %>
+  rb_vault_post:
+    source: kafka
+    parser: json
+    attributes:
+      syslogfacility: string
+      syslogfacility_text: string
+      syslogsevirity: string
+      syslogseverity_text: string
+      pri: string
+      pri_text: string
+      sensor_ip: string
+      sensor_name: string
+      timestamp: long
+      fromhost_ip: string
+      app_name: string
+      sensor_uuid: string
+      protocol_version: string
+      message: string
+      target: string
+      source: string
+      status: string
+      <% @dimensions.each do |key, value| %>
+      <%= key %>: <%= value["type"] %>
+      <% end %>
+<% end %>
+<% if (node["redborder"]["license"]["fmodules"].include?"all" or node["redborder"]["license"]["fmodules"].include?"social") %>
+  rb_social:
+    source: kafka
+    parser: json
+    attributes:
+      client_id: string
+      client_latlong: string
+      user_screen_name: string
+      user_name: string
+      user_id: string
+      type: string
+      followers: int
+      hashtags: string
+      mentions: string
+      msg: string
+      sentiment: string
+      msg_send_from: string
+      user_from: string
+      user_profile_img_https: string
+      src_country_code: string
+      influence: string
+      picture_url: string
+      language: string
+      category: string
+      sensor_uuid: string
+      floor_uuid: string
+      building_uuid: string
+      campus_uuid: string
+      market_uuid: string
+      organization_uuid: string
+      service_provider_uuid: string
+      deployment_uuid: string
+      namespace_uuid: string
+  rb_hashtag:
+    source: kafka
+    parser: json
+    attributes:
+      type: string
+      value: string
+      sensor_uuid: string
+      floor_uuid: string
+      building_uuid: string
+      campus_uuid: string
+      market_uuid: string
+      organization_uuid: string
+      service_provider_uuid: string
+      deployment_uuid: string
+      namespace_uuid: string
+<% end %>
+<% if (node["redborder"]["license"]["fmodules"].include?"all" or node["redborder"]["license"]["fmodules"].include?"iot") %>
+  rb_iot:
+    source: kafka
+    parser: json
+    attributes:
+      sensor_uuid: string
+      monitor: string
+      value: double
+<% end %>
