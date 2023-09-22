@@ -8,7 +8,6 @@ action :add do
   begin
     vault_nodes = new_resource.vault_nodes
     ips_nodes = new_resource.ips_nodes
-    social_nodes = new_resource.social_nodes
     flow_nodes = new_resource.flow_nodes
     cep_port = new_resource.cep_port
     log_dir = new_resource.log_dir
@@ -43,7 +42,7 @@ action :add do
       group "root"
       mode 0644
       retries 2
-      variables(:cep_port => cep_port, :ipsync => ipsync, :flow_nodes => flow_nodes, :social_nodes => social_nodes, :vault_nodes => vault_nodes, :ips_nodes => ips_nodes, :dimensions => dimensions )
+      variables(:cep_port => cep_port, :ipsync => ipsync, :flow_nodes => flow_nodes, :vault_nodes => vault_nodes, :ips_nodes => ips_nodes, :dimensions => dimensions )
       cookbook "rbcep"
       notifies :restart, "service[redborder-cep]", :delayed
     end
