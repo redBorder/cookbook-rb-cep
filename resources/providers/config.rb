@@ -18,7 +18,7 @@ action :add do
       dimensions = dimensions.merge(YAML.load_file(item)) rescue dimensions
     end
 
-    yum_package "redborder-cep" do
+    dnf_package "redborder-cep" do
       action :upgrade
       flush_cache[:before]
     end
@@ -85,7 +85,7 @@ action :remove do
       end
     end
     # uninstall package
-    yum_package "redborder-cep" do
+    dnf_package "redborder-cep" do
       action :remove
     end
 
