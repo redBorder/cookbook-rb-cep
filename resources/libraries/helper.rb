@@ -42,10 +42,10 @@ module RbCep
           masksync = "32"
         end
 
-        node.set["redborder"]["manager"][node["redborder"]["manager"]["internal_bond"]]["ip"] = ipsync
-        node.set["redborder"]["manager"][node["redborder"]["manager"]["internal_bond"]]["prefixlen"] = masksync
-        node.set["redborder"]["manager"][node["redborder"]["manager"]["internal_bond"]]["net"] = netsync
-        node.set["redborder"]["manager"][node["redborder"]["manager"]["internal_bond"]]["iface"] = ifsync
+        node.default["redborder"]["manager"][node["redborder"]["manager"]["internal_bond"]]["ip"] = ipsync
+        node.default["redborder"]["manager"][node["redborder"]["manager"]["internal_bond"]]["prefixlen"] = masksync
+        node.default["redborder"]["manager"][node["redborder"]["manager"]["internal_bond"]]["net"] = netsync
+        node.default["redborder"]["manager"][node["redborder"]["manager"]["internal_bond"]]["iface"] = ifsync
       end
 
       [ipsync, netsync, ifsync, masksync]
