@@ -110,9 +110,9 @@ action :register do #Usually used to register in consul
         action :nothing
       end.run_action(:run)
 
-      node.default["redborder-cep"]["registered"] = true
+      node.normal["redborder-cep"]["registered"] = true
+      Chef::Log.info("redborder-cep service has been registered in consul")
     end
-    Chef::Log.info("redborder-cep service has been registered in consul")
   rescue => e
     Chef::Log.error(e.message)
   end
@@ -126,9 +126,9 @@ action :deregister do #Usually used to deregister from consul
         action :nothing
       end.run_action(:run)
 
-      node.default["redborder-cep"]["registered"] = false
+      node.normal["redborder-cep"]["registered"] = false
+      Chef::Log.info("redborder-cep service has been deregistered from consul")
     end
-    Chef::Log.info("redborder-cep service has been deregistered from consul")
   rescue => e
     Chef::Log.error(e.message)
   end
