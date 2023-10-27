@@ -12,4 +12,3 @@ attribute :cep_port, :kind_of => Fixnum, :default => 8888
 attribute :vault_nodes, :kind_of => Object, :default => []
 attribute :ips_nodes, :kind_of => Object, :default => []
 attribute :flow_nodes, :kind_of => Object, :default => []
-attribute :social_nodes, :kind_of => Object, :default => []
