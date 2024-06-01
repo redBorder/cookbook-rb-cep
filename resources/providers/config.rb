@@ -8,7 +8,6 @@ action :add do
   begin
     vault_nodes = new_resource.vault_nodes
     ips_nodes = new_resource.ips_nodes
-    social_nodes = new_resource.social_nodes
     flow_nodes = new_resource.flow_nodes
     cep_port = new_resource.cep_port
     log_dir = new_resource.log_dir
@@ -19,7 +18,7 @@ action :add do
       dimensions = dimensions.merge(YAML.load_file(item)) rescue dimensions
     end
 
-    yum_package "redborder-cep" do
+    dnf_package "redborder-cep" do
       action :upgrade
       flush_cache[:before]
     end
@@ -43,7 +42,7 @@ action :add do
       group "root"
       mode 0644
       retries 2
-      variables(:cep_port => cep_port, :ipsync => ipsync, :flow_nodes => flow_nodes, :social_nodes => social_nodes, :vault_nodes => vault_nodes, :ips_nodes => ips_nodes, :dimensions => dimensions )
+      variables(:cep_port => cep_port, :ipsync => ipsync, :flow_nodes => flow_nodes, :vault_nodes => vault_nodes, :ips_nodes => ips_nodes, :dimensions => dimensions )
       cookbook "rbcep"
       notifies :restart, "service[redborder-cep]", :delayed
     end
@@ -86,7 +85,7 @@ action :remove do
       end
     end
     # uninstall package
-    yum_package "redborder-cep" do
+    dnf_package "redborder-cep" do
       action :remove
     end
 
@@ -111,9 +110,9 @@ action :register do #Usually used to register in consul
         action :nothing
       end.run_action(:run)
 
-      node.set["redborder-cep"]["registered"] = true
+      node.normal["redborder-cep"]["registered"] = true
+      Chef::Log.info("redborder-cep service has been registered in consul")
     end
-    Chef::Log.info("redborder-cep service has been registered in consul")
   rescue => e
     Chef::Log.error(e.message)
   end
@@ -127,9 +126,9 @@ action :deregister do #Usually used to deregister from consul
         action :nothing
       end.run_action(:run)
 
-      node.set["redborder-cep"]["registered"] = false
+      node.normal["redborder-cep"]["registered"] = false
+      Chef::Log.info("redborder-cep service has been deregistered from consul")
     end
-    Chef::Log.info("redborder-cep service has been deregistered from consul")
   rescue => e
     Chef::Log.error(e.message)
   end

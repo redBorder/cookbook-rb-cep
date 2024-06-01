@@ -45,5 +45,8 @@ esac
 %doc
 
 %changelog
+* Fri Sep 22 2023 Miguel Negrón <manegron@redborder.com> - 2.0.0-1
+- Remove social
+
 * Wed Feb 09 2022 Javier Rodríguez <javiercrg@redborder.com> - 1.0.0-1
 - first spec version

@@ -142,55 +142,6 @@ streams:
       <%= key %>: <%= value["type"] %>
       <% end %>
 <% end %>
-<% if (node["redborder"]["license"]["fmodules"].include?"all" or node["redborder"]["license"]["fmodules"].include?"social") %>
-  rb_social:
-    source: kafka
-    parser: json
-    attributes:
-      client_id: string
-      client_latlong: string
-      user_screen_name: string
-      user_name: string
-      user_id: string
-      type: string
-      followers: int
-      hashtags: string
-      mentions: string
-      msg: string
-      sentiment: string
-      msg_send_from: string
-      user_from: string
-      user_profile_img_https: string
-      src_country_code: string
-      influence: string
-      picture_url: string
-      language: string
-      category: string
-      sensor_uuid: string
-      floor_uuid: string
-      building_uuid: string
-      campus_uuid: string
-      market_uuid: string
-      organization_uuid: string
-      service_provider_uuid: string
-      deployment_uuid: string
-      namespace_uuid: string
-  rb_hashtag:
-    source: kafka
-    parser: json
-    attributes:
-      type: string
-      value: string
-      sensor_uuid: string
-      floor_uuid: string
-      building_uuid: string
-      campus_uuid: string
-      market_uuid: string
-      organization_uuid: string
-      service_provider_uuid: string
-      deployment_uuid: string
-      namespace_uuid: string
-<% end %>
 <% if (node["redborder"]["license"]["fmodules"].include?"all" or node["redborder"]["license"]["fmodules"].include?"iot") %>
   rb_iot:
     source: kafka
