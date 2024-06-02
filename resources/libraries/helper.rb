@@ -10,11 +10,11 @@ module RbCep
       masksync = nil
 
       [node['redborder']['manager']['internal_bond'], node['redborder']['manager']['management_bond']].each do |iface|
-        next unless iface.nil?
+        next unless iface
 
-        next unless node['network']['interfaces'][iface].nil?
+        next unless node['network']['interfaces'][iface]
 
-        next unless node['network']['interfaces'][iface]['addresses'].nil?
+        next unless node['network']['interfaces'][iface]['addresses']
 
         node['network']['interfaces'][iface]['addresses'].each do |x|
           next unless ipsync && x[1]['family'] == 'inet' && x[1]['prefixlen'] && x[1]['prefixlen'] != '32'
