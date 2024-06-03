@@ -1,3 +1,2 @@
-#Flags
-default["redborder-cep"]["registered"] = false
-
+# Flags
+default['redborder-cep']['registered'] = false
