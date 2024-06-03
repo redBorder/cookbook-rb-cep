@@ -1,5 +1,20 @@
 cookbook-rb-cep CHANGELOG
-===========================
+===============
+
+## 0.0.2
+
+  - Miguel Negron
+    - [19f3dce] fix lint
+    - [6162cfe] lint resources
+    - [0c3967f] lint recipes
+    - [16ae1fb] lint providers
+    - [3ed807d] lint libraries
+    - [8488585] lint attributes
+    - [6452552] Update README.md
+    - [60150dd] Update rpm.yml
+    - [5fe93d2] Update metadata.rb
+  - Luis Blanco
+    - [3d1a115] fix curl
 
 This file is used to list changes made in each version of the logstash cookbook.
 
