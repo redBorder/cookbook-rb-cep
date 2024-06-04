@@ -1,7 +1,6 @@
-# Cookbook Name:: rbcep
-#
+# Cookbook:: rbcep
 # Provider:: config
-#
+
 include RbCep::Helper
 
 action :add do
@@ -12,59 +11,66 @@ action :add do
     cep_port = new_resource.cep_port
     log_dir = new_resource.log_dir
 
-    ipsync, netsync, ifsync, masksync = get_sync
+    ipsync, _netsync, _ifsync, _masksync = get_sync
     dimensions = {}
     Dir.glob('/var/rb-extensions/*/dimensions.yml') do |item|
-      dimensions = dimensions.merge(YAML.load_file(item)) rescue dimensions
+      begin
+        dimensions.merge!(YAML.load_file(item))
+      rescue StandarError => e
+        puts "Error loading #{item}: #{e.message}"
+        dimensions
+      end
     end
 
-    dnf_package "redborder-cep" do
+    dnf_package 'redborder-cep' do
       action :upgrade
       flush_cache[:before]
     end
 
-    directory "/etc/redborder-cep" do
-      owner "root"
-      group "root"
-      mode 0770
+    directory '/etc/redborder-cep' do
+      owner 'root'
+      group 'root'
+      mode '0770'
       action :create
     end
 
     directory log_dir do
-      owner "root"
-      group "root"
-      mode 0755
+      owner 'root'
+      group 'root'
+      mode '0755'
     end
 
-    template "/etc/redborder-cep/config.yml" do
-      source "cep_config.yml.erb"
-      owner "root"
-      group "root"
-      mode 0644
+    template '/etc/redborder-cep/config.yml' do
+      source 'cep_config.yml.erb'
+      owner 'root'
+      group 'root'
+      mode '0644'
       retries 2
-      variables(:cep_port => cep_port, :ipsync => ipsync, :flow_nodes => flow_nodes, :vault_nodes => vault_nodes, :ips_nodes => ips_nodes, :dimensions => dimensions )
-      cookbook "rbcep"
-      notifies :restart, "service[redborder-cep]", :delayed
+      variables(cep_port: cep_port, ipsync: ipsync,
+                flow_nodes: flow_nodes, vault_nodes: vault_nodes,
+                ips_nodes: ips_nodes, dimensions: dimensions)
+      cookbook 'rbcep'
+      notifies :restart, 'service[redborder-cep]', :delayed
     end
 
-    template "/etc/redborder-cep/log4j2.xml" do
-      source "cep_log4j2.xml.erb"
-      owner "root"
-      group "root"
-      mode 0644
+    template '/etc/redborder-cep/log4j2.xml' do
+      source 'cep_log4j2.xml.erb'
+      owner 'root'
+      group 'root'
+      mode '0644'
       retries 2
-      cookbook "rbcep"
-      notifies :restart, "service[redborder-cep]", :delayed
+      cookbook 'rbcep'
+      notifies :restart, 'service[redborder-cep]', :delayed
     end
 
-    service "redborder-cep" do
-      service_name "redborder-cep"
+    service 'redborder-cep' do
+      service_name 'redborder-cep'
       ignore_failure true
-      supports :status => true, :restart => true
+      supports status: true, restart: true
       action [:enable, :start]
     end
 
-    Chef::Log.info("cookbook redborder-cep has been processed.")
+    Chef::Log.info('cookbook redborder-cep has been processed.')
   rescue => e
     Chef::Log.error(e.message)
   end
@@ -72,37 +78,36 @@ end
 
 action :remove do
   begin
-
-    service "redborder-cep" do
-      supports :stop => true
+    service 'redborder-cep' do
+      supports stop: true
       action :stop
     end
 
-    %w[ /etc/redborder-cep].each do |path|
+    %w(/etc/redborder-cep).each do |path|
       directory path do
         recursive true
         action :delete
       end
     end
     # uninstall package
-    dnf_package "redborder-cep" do
+    dnf_package 'redborder-cep' do
       action :remove
     end
 
-    Chef::Log.info("redborder-cep has been deleted correctly.")
+    Chef::Log.info('redborder-cep has been deleted correctly.')
   rescue => e
     Chef::Log.error(e.message)
   end
 end
 
-action :register do #Usually used to register in consul
+action :register do
   begin
-    if !node["redborder-cep"]["registered"]
+    unless node['redborder-cep']['registered']
       query = {}
-      query["ID"] = "redborder-cep-#{node["hostname"]}"
-      query["Name"] = "redborder-cep"
-      query["Address"] = "#{node["ipaddress"]}"
-      query["Port"] = 443
+      query['ID'] = "redborder-cep-#{node['hostname']}"
+      query['Name'] = 'redborder-cep'
+      query['Address'] = "#{node['ipaddress']}"
+      query['Port'] = 443
       json_query = Chef::JSONCompat.to_json(query)
 
       execute 'Register service in consul' do
@@ -110,24 +115,24 @@ action :register do #Usually used to register in consul
         action :nothing
       end.run_action(:run)
 
-      node.normal["redborder-cep"]["registered"] = true
-      Chef::Log.info("redborder-cep service has been registered in consul")
+      node.normal['redborder-cep']['registered'] = true
+      Chef::Log.info('redborder-cep service has been registered in consul')
     end
   rescue => e
     Chef::Log.error(e.message)
   end
 end
 
-action :deregister do #Usually used to deregister from consul
+action :deregister do
   begin
-    if node["redborder-cep"]["registered"]
+    if node['redborder-cep']['registered']
       execute 'Deregister service in consul' do
-        command "curl http://localhost:8500/v1/agent/service/deregister/redborder-cep-#{node["hostname"]} &>/dev/null"
+        command "curl -X PUT http://localhost:8500/v1/agent/service/deregister/redborder-cep-#{node['hostname']} &>/dev/null"
         action :nothing
       end.run_action(:run)
 
-      node.normal["redborder-cep"]["registered"] = false
-      Chef::Log.info("redborder-cep service has been deregistered from consul")
+      node.normal['redborder-cep']['registered'] = false
+      Chef::Log.info('redborder-cep service has been deregistered from consul')
     end
   rescue => e
     Chef::Log.error(e.message)
