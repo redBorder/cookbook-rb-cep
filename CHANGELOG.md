@@ -3,8 +3,6 @@ cookbook-rb-cep CHANGELOG
 
 ## 0.0.3
 
-  - nilsver
-    - [2ad57ae] Merge pull request #8 from redBorder/Bugfix/#16798_redborder-cep_user_does_not_exist
   - Rafael Gomez
     - [4f08ad5] Bugfix/#16798 redborder-cep user does not exist
 
