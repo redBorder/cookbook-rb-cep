@@ -1,6 +1,11 @@
 cookbook-rb-cep CHANGELOG
 ===============
 
+## 0.0.3
+
+  - Rafael Gomez
+    - [4f08ad5] Bugfix/#16798 redborder-cep user does not exist
+
 ## 0.0.2
 
   - Miguel Negron
