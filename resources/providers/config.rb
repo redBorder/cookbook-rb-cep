@@ -5,6 +5,7 @@ include RbCep::Helper
 
 action :add do
   begin
+    user = new_resource.user
     vault_nodes = new_resource.vault_nodes
     ips_nodes = new_resource.ips_nodes
     flow_nodes = new_resource.flow_nodes
@@ -25,6 +26,18 @@ action :add do
     dnf_package 'redborder-cep' do
       action :upgrade
       flush_cache[:before]
+    end
+
+    execute 'create_group' do
+      command "groupadd #{user}"
+      ignore_failure true
+      not_if "getent group #{user}"
+    end
+
+    execute 'create_user' do
+      command "/usr/sbin/useradd -g #{user} #{user}"
+      ignore_failure true
+      not_if "getent passwd #{user}"
     end
 
     directory '/etc/redborder-cep' do
