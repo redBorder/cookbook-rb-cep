@@ -23,6 +23,9 @@ chmod -R 0755 %{buildroot}/var/chef/cookbooks/rb-cep
 install -D -m 0644 README.md %{buildroot}/var/chef/cookbooks/rb-cep/README.md
 
 %pre
+if [ -d /var/chef/cookbooks/rb-cep ]; then
+    rm -rf /var/chef/cookbooks/rb-cep
+fi
 
 %post
 case "$1" in
@@ -36,6 +39,12 @@ case "$1" in
   ;;
 esac
 
+%postun
+# Deletes directory when uninstall the package
+if [ "$1" = 0 ] && [ -d /var/chef/cookbooks/rb-cep ]; then
+  rm -rf /var/chef/cookbooks/rb-cep
+fi
+
 %files
 %defattr(0755,root,root)
 /var/chef/cookbooks/rb-cep
@@ -45,8 +54,11 @@ esac
 %doc
 
 %changelog
-* Fri Sep 22 2023 Miguel Negrón <manegron@redborder.com> - 2.0.0-1
+* Thu Oct 10 2024 Miguel Negrón <manegron@redborder.com>
+- Add pre and postun
+
+* Fri Sep 22 2023 Miguel Negrón <manegron@redborder.com>
 - Remove social
 
-* Wed Feb 09 2022 Javier Rodríguez <javiercrg@redborder.com> - 1.0.0-1
+* Wed Feb 09 2022 Javier Rodríguez <javiercrg@redborder.com>
 - first spec version

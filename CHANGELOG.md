@@ -1,6 +1,11 @@
 cookbook-rb-cep CHANGELOG
 ===============
 
+## 0.0.4
+
+  - Miguel Negrón
+    - [60d2f4c] Add pre and postun to clean the cookbook
+
 ## 0.0.3
 
   - Rafael Gomez
@@ -8,7 +13,7 @@ cookbook-rb-cep CHANGELOG
 
 ## 0.0.2
 
-  - Miguel Negron
+  - Miguel Negrón
     - [19f3dce] fix lint
     - [6162cfe] lint resources
     - [0c3967f] lint recipes
