@@ -1,4 +1,4 @@
-require 'netaddr'
+# require 'netaddr'
 
 module RbCep
   module Helper
@@ -20,7 +20,8 @@ module RbCep
           next unless ipsync && x[1]['family'] == 'inet' && x[1]['prefixlen'] && x[1]['prefixlen'] != '32'
 
           ipsync = x[0]
-          netsync = NetAddr::CIDR.create("#{ipsync}/#{x[1]['prefixlen']}").to_s
+          # netsync = NetAddr::CIDR.create("#{ipsync}/#{x[1]['prefixlen']}").to_s
+          netsync = "#{ipsync}/#{x[1]['prefixlen']}"
           ifsync = iface
           masksync = x[1]['prefixlen']
 
