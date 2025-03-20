@@ -26,6 +26,7 @@ action :add do
     dnf_package 'redborder-cep' do
       action :upgrade
       flush_cache[:before]
+      notifies :restart, 'service[redborder-cep]', :delayed
     end
 
     execute 'create_group' do
