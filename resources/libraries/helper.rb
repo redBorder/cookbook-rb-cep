@@ -21,7 +21,10 @@ module RbCep
 
           ipsync = x[0]
           # netsync = NetAddr::CIDR.create("#{ipsync}/#{x[1]['prefixlen']}").to_s
-          netsync = "#{ipsync}/#{x[1]['prefixlen']}"
+          ip_int = ipsync.split('.').map(&:to_i).inject { |acc, octet| (acc << 8) + octet }
+          mask_int = ((1 << x[1]['prefixlen']) - 1) << (32 - x[1]['prefixlen'])
+          network_int = ip_int & mask_int
+          netsync = "#{[24, 16, 8, 0].map { |b| (network_int >> b) & 255 }.join('.')}/#{x[1]['prefixlen']}"
           ifsync = iface
           masksync = x[1]['prefixlen']
 
