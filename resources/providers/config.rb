@@ -133,7 +133,7 @@ action :register do
         action :nothing
       end.run_action(:run)
 
-      node.normal['redborder-cep']['registered'] = true
+      node.override['redborder-cep']['registered'] = true
       Chef::Log.info('redborder-cep service has been registered in consul')
     end
   rescue => e
@@ -149,7 +149,7 @@ action :deregister do
         action :nothing
       end.run_action(:run)
 
-      node.normal['redborder-cep']['registered'] = false
+      node.override['redborder-cep']['registered'] = false
       Chef::Log.info('redborder-cep service has been deregistered from consul')
     end
   rescue => e
