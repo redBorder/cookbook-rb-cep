@@ -22,6 +22,10 @@ action :add do
         dimensions
       end
     end
+    
+    dnf_package 'redborder-cep' do
+      action :nothing
+    end
 
     dnf_package 'redborder-cep' do
       action :upgrade
