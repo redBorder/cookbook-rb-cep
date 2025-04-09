@@ -1,6 +1,12 @@
 cookbook-rb-cep CHANGELOG
 ===============
 
+## 0.1.0
+
+  - Daniel Castro
+    - [1053764] Add nothing action for redborder-cep
+    - [a26b53d] Change CEP port and restart on update to apply changes to service
+
 ## 0.0.4
 
   - Miguel Negrón
