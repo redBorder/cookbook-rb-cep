@@ -24,8 +24,13 @@ action :add do
     end
 
     dnf_package 'redborder-cep' do
+      action :nothing
+    end
+
+    dnf_package 'redborder-cep' do
       action :upgrade
       flush_cache[:before]
+      notifies :restart, 'service[redborder-cep]', :delayed
     end
 
     execute 'create_group' do
@@ -128,7 +133,7 @@ action :register do
         action :nothing
       end.run_action(:run)
 
-      node.normal['redborder-cep']['registered'] = true
+      node.override['redborder-cep']['registered'] = true
       Chef::Log.info('redborder-cep service has been registered in consul')
     end
   rescue => e
@@ -144,7 +149,7 @@ action :deregister do
         action :nothing
       end.run_action(:run)
 
-      node.normal['redborder-cep']['registered'] = false
+      node.override['redborder-cep']['registered'] = false
       Chef::Log.info('redborder-cep service has been deregistered from consul')
     end
   rescue => e
