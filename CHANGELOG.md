@@ -1,6 +1,11 @@
 cookbook-rb-cep CHANGELOG
 ===============
 
+## 0.1.1
+
+  - vimesa
+    - [a27d5f4] Remove gem netaddr
+
 ## 0.1.0
 
   - Daniel Castro
