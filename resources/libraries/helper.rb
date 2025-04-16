@@ -1,5 +1,3 @@
-require 'netaddr'
-
 module RbCep
   module Helper
     # Function that fills the variables ipsync, netsync, ifsync, masksync
@@ -20,7 +18,10 @@ module RbCep
           next unless ipsync && x[1]['family'] == 'inet' && x[1]['prefixlen'] && x[1]['prefixlen'] != '32'
 
           ipsync = x[0]
-          netsync = NetAddr::CIDR.create("#{ipsync}/#{x[1]['prefixlen']}").to_s
+          ip_int = ipsync.split('.').map(&:to_i).inject { |acc, elem| (acc << 8) + elem }
+          mask_int = ((1 << x[1]['prefixlen']) - 1) << (32 - x[1]['prefixlen'])
+          network_int = ip_int & mask_int
+          netsync = "#{[24, 16, 8, 0].map { |b| (network_int >> b) & 255 }.join('.')}/#{x[1]['prefixlen']}"
           ifsync = iface
           masksync = x[1]['prefixlen']
 
