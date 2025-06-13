@@ -1,6 +1,13 @@
 cookbook-rb-cep CHANGELOG
 ===============
 
+## 0.1.2
+
+  - Pablo Pérez
+    - [04f4214] Merge pull request #14 from redBorder/feature/#21708_remove_darklist
+  - vimesa
+    - [6f42930] Remove darklist
+
 ## 0.1.1
 
   - vimesa
