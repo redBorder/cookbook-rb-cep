@@ -1,6 +1,11 @@
 cookbook-rb-cep CHANGELOG
 ===============
 
+## 0.1.3
+
+  - nilsver
+    - [55c4e64] remove flush cache
+
 ## 0.1.2
 
   - Pablo Pérez
