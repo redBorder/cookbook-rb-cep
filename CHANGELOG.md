@@ -1,6 +1,11 @@
 cookbook-rb-cep CHANGELOG
 ===============
 
+## 0.1.4
+
+  - jnavarrorb
+    - [6200287] Remove executable permissions on non-executable files
+
 ## 0.1.3
 
   - nilsver
