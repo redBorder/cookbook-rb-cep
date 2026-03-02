@@ -1,6 +1,13 @@
 cookbook-rb-cep CHANGELOG
 ===============
 
+## 0.1.5
+
+  - Miguel Negrón
+    - [68ca046] Merge pull request #20 from redBorder/bugfix/#24064_check_if_manager_node_has_an_ip_before_adding_firewall_rule
+  - Rafael Gomez
+    - [9f79dce] Using the sycn IP address and port 8478 to register the CEP service in consul
+
 ## 0.1.4
 
   - jnavarrorb
