@@ -123,8 +123,8 @@ action :register do
       query = {}
       query['ID'] = "redborder-cep-#{node['hostname']}"
       query['Name'] = 'redborder-cep'
-      query['Address'] = "#{node['ipaddress']}"
-      query['Port'] = 443
+      query['Address'] = "#{node['ipaddress_sync']}"
+      query['Port'] = 8478
       json_query = Chef::JSONCompat.to_json(query)
 
       execute 'Register service in consul' do
