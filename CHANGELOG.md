@@ -1,6 +1,11 @@
 cookbook-rb-cep CHANGELOG
 ===============
 
+## 0.1.6
+
+  - manegron
+    - [873e22f] Upload cookbook only if opscode-erchef is active
+
 ## 0.1.5
 
   - Miguel Negrón
